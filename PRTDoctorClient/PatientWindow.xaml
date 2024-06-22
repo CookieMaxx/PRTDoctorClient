@@ -1,0 +1,71 @@
+﻿<Window x:Class="PRTDoctorClient.PatientWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PRTDoctorClient"
+        mc:Ignorable="d"
+        Title="PatientWindow" Height="500" Width="800">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="140.04"/>
+            <RowDefinition Height="0"/>
+            <RowDefinition Height="204"/>
+            <RowDefinition Height="79.92"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <ListView Name="listPatientInfo" HorizontalAlignment="Left" Width="300" Margin="10,34,0,98" Grid.RowSpan="3">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Field" DisplayMemberBinding="{Binding Field}"/>
+                    <GridViewColumn Header="Value" DisplayMemberBinding="{Binding Value}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <ListBox Name="listMeetingBox" Margin="10,111,0,48" Grid.RowSpan="3" Grid.Row="1" HorizontalAlignment="Left" Width="300"/>
+        <Button Name="DeleteMeetingButton" Content="Delete Meeting" HorizontalAlignment="Left" Margin="165,37,0,0" Click="DeleteMeetingButton_Click" Width="145" Grid.Row="3" Height="28" VerticalAlignment="Top"/>
+        <Button Name="RescheduleMeetingButton" Content="Reschedule Meeting" HorizontalAlignment="Right" Margin="0,37,620,0" Click="RescheduleMeetingButton_Click" Width="150" Grid.Row="3" Height="28" VerticalAlignment="Top"/>
+        <Button Name="CloseButton" Content="Close" HorizontalAlignment="Right"  VerticalAlignment="Top" Click="CloseButton_Click" Margin="0,37,10,0" Height="33" Width="75" Grid.Row="3"/>
+
+        <ListView x:Name="listMedicationView" HorizontalAlignment="Left" Width="206" Margin="320,35,0,97" Grid.RowSpan="3">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Medication" DisplayMemberBinding="{Binding}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <ListView x:Name="listSurveyView" Margin="531,35,10,97" Grid.RowSpan="3">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Survey" DisplayMemberBinding="{Binding Name}" />
+                    <GridViewColumn Header="Assigned Date" DisplayMemberBinding="{Binding AssignedDate}" />
+                    <GridViewColumn Header="Status" DisplayMemberBinding="{Binding Status}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <TextBlock Text="Medications" FontWeight="Bold" Margin="320,10,388,114"/>
+        <ListBox x:Name="medicationListBox" Margin="320,111,255,48" Grid.RowSpan="3" Grid.Row="1">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <CheckBox Content="{Binding Item}" IsChecked="{Binding IsSelected, Mode=TwoWay}" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <Button x:Name="assignMedSurv" Content="Assign changes" HorizontalAlignment="Left" Margin="320,37,0,0" Click="AssignChanges_Click" Width="145" Grid.Row="3" Height="28" VerticalAlignment="Top"/>
+        <ListBox x:Name="surveyListBox" Margin="530,111,10,48" Grid.RowSpan="3" Grid.Row="1">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <CheckBox Content="{Binding Item}" IsChecked="{Binding IsSelected, Mode=TwoWay}" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <TextBlock Text="Survey" FontWeight="Bold" Margin="530,10,178,113"/>
+        <TextBlock Text="Patient Data" FontWeight="Bold" Margin="13,10,695,114"/>
+    </Grid>
+</Window>

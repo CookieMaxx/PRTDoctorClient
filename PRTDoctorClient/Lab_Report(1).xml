@@ -1,0 +1,471 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ELGA_Stylesheet_v1.0.xsl"?>
+
+
+<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:lab="urn:oid:1.3.6.1.4.1.19376.1.3.2">
+
+	<realmCode code="AT"/>
+	
+	<typeId root="2.16.840.1.113883.1.3" extension="POCD_HD000040"/>
+	
+
+	<id root="1.2.40.0.34.99.111.1.1" extension="134F02"/>
+
+	<code code="11502-2" displayName="Laboratory report" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+	
+	<title>Laboratory Report</title>
+	
+	<effectiveTime value="20121201121500+0100"/>
+
+	<confidentialityCode code="N" displayName="normal" codeSystem="2.16.840.1.113883.5.25" codeSystemName="HL7:Confidentiality"/>
+
+	<languageCode code="en-US"/>
+	
+	<setId root="1.2.40.0.34.99.111.1.1" extension="134F002"/>
+	
+	<versionNumber value="1"/>
+
+	<!--
+		========================================================================
+		Patient 
+		========================================================================
+	-->
+	<recordTarget>
+		<patientRole>
+		
+
+			<id root="1.2.40.0.34.99.111.1.2" extension="4711"/>
+
+			<addr use="HP">
+				<streetAddressLine>Musterstraße 13a</streetAddressLine>
+				<postalCode>7000</postalCode>
+				<city>Eisenstadt</city>
+				<state>Burgenland</state>
+				<country>Österreich</country>
+			</addr>
+
+			<telecom use="H" value="tel:+43.2682.40400"/>
+			<telecom use="MC" value="tel:+43.664.1234567"/>
+			<telecom value="mailto:musterfrau@provider.at"/>
+			
+			<patient>
+
+				<name>
+					<prefix qualifier="AC">Dr.</prefix>
+					<given>Maria</given>
+					<given>Johanna</given>
+					<family>Musterfrau</family>
+					<family qualifier="BR">VorDerHeirat</family>
+					<suffix qualifier="AC">BSc</suffix>
+				</name>
+
+				<administrativeGenderCode code="F" displayName="Female" codeSystem="2.16.840.1.113883.5.1" codeSystemName="HL7:AdministrativeGender"/>
+
+				<birthTime value="19611224"/>
+
+				<maritalStatusCode code="M" displayName="Married" codeSystem="2.16.840.1.113883.5.2" codeSystemName="HL7:MaritalStatus"/>
+
+				<birthplace>
+					<place>
+						<addr>
+							<streetAddressLine>Musterstraße 23b</streetAddressLine>
+							<postalCode>8011</postalCode>
+							<city>Graz</city>
+							<state>Steiermark</state>
+							<country>Österreich</country>
+						</addr>
+					</place>
+				</birthplace>
+			</patient>
+		</patientRole>
+	</recordTarget>
+
+	<author>
+
+		<time value="20121201121500+0100"/>
+		
+		<assignedAuthor>
+
+			<id root="1.2.40.0.34.99.111.1.3" extension="1111" assigningAuthorityName="Amadeus Spital"/>
+
+			<telecom use="WP" value="tel:+43.1.3453446.1111"/>
+			<telecom value="tel:+43.1.3334077354"/>
+
+			<assignedPerson>
+			
+				<name>
+					<prefix>Dr.</prefix>
+					<family>Isabella</family>
+					<given>Stern</given>
+				</name>
+				
+			</assignedPerson>
+			
+		</assignedAuthor>
+	</author>
+	
+
+	<custodian>
+		<assignedCustodian>
+			<representedCustodianOrganization>
+
+				<id root="1.2.40.0.34.99.3" assigningAuthorityName="GDA Index"/>
+
+				<name>Amadeus Spital - Labor</name>
+	
+				<telecom value="tel:+43.1.3453446.0"/>
+
+				<addr>
+					<streetName>Währinger Gürtel</streetName>
+					<houseNumber>18-20</houseNumber>
+					<postalCode>1090</postalCode>
+					<city>Wien</city>
+					<state>Wien</state>
+					<country>Österreich</country>
+				</addr>
+
+			</representedCustodianOrganization>
+		</assignedCustodian>
+	</custodian>
+
+	<legalAuthenticator>
+		
+		<time value="20121201101500+0100"/>
+		
+		<signatureCode code="S"/>
+
+		<assignedEntity>
+
+			<id root="1.2.40.0.34.99.111.1.3" extension="2222" assigningAuthorityName="Amadeus Spital"/>
+
+			<addr>
+				<streetName>Währinger Gürtel</streetName>
+				<houseNumber>18-20</houseNumber>
+				<postalCode>1090</postalCode>
+				<city>Wien</city>
+				<state>Wien</state>
+				<country>Österreich</country>
+			</addr>
+
+			<telecom use="WP" value="tel:+43.1.3453446.2222"/>
+			
+			<assignedPerson>
+
+				<name>
+					<prefix>Univ.-Prof.Dr.</prefix>
+					<family>Sigrid</family>
+					<given>Kollmann</given>
+				</name>
+				
+			</assignedPerson>
+
+		</assignedEntity>
+	</legalAuthenticator>
+
+	<documentationOf>
+		<serviceEvent>
+		
+			<code code="300" displayName="Hämatologie" codeSystem="1.2.40.0.34.5.11" codeSystemName="ELGA_LaborparameterErgaenzung"/>
+			
+			<effectiveTime>
+				
+				<low value="20121201081400+0100"/>
+				
+				<high value="20121201121500+0100"/>
+			</effectiveTime>
+		</serviceEvent>
+	</documentationOf>
+
+	<component typeCode="COMP">
+		<structuredBody classCode="DOCBODY">		
+
+			<component typeCode="COMP">
+				<section classCode="DOCSECT">
+					<templateId root="1.3.6.1.4.1.19376.1.3.3.2.1"/>
+					<id extension="P-body" root="2.16.840.1.113883.3.933.1.1"/>
+					<code code="300" codeSystem="1.2.40.0.34.5.11" codeSystemName="ELGA_LaborparameterErgaenzung"
+						displayName="Hämatologie"/>
+					<title>Hematology - TEST</title>
+					<!-- Start level 2 -->
+					<text>
+						
+
+						<paragraph styleCode="xELGA_h3">Hemogram - TEST</paragraph>
+						<table>
+							<thead>
+								<tr>
+									<th styleCode="xELGA_colw:40">Test</th>
+									<th>Result</th>
+									<th>Unit</th>
+									<th>Reference Range</th>
+									<th styleCode="xELGA_colw:10">Interpretation</th>
+									<th>Delta</th>							
+								</tr>
+							</thead>
+							<tbody>
+								<tr ID="OBS-1-1" styleCode="xELGA_red">
+									<td>Leucocytes</td>
+									<td>26</td>
+									<td>G/l</td>
+									<td ID="OBSREF-1-1">4-10</td>
+									<td>+</td>
+									<td>d+</td>
+									
+								</tr>
+								<tr ID="OBS-1-2">
+									<td>Thrombocytes</td>
+									<td>200</td>
+									<td>G/l</td>
+									<td ID="OBSREF-1-2">150-360</td>
+									<td/>
+									<td>d-</td>
+									
+								</tr>
+								<tr ID="OBS-1-3" styleCode="xELGA_red">
+									<td>Erythrocytes</td>
+									<td>4.05</td>
+									<td>T/l</td>
+									<td ID="OBSREF-1-3">4.60-6.20</td>
+									<td/>
+									<td/>
+									
+								</tr>
+								<tr ID="OBS-1-4">
+									<td>Hemoglobin</td>
+									<td>16.0</td>
+									<td>g/dl</td>
+									<td ID="OBSREF-1-4">14.0-18.0</td>
+									<td/>
+									<td/>
+									
+								</tr>
+								<tr ID="OBS-1-5" styleCode="xELGA_red">
+									<td>Hematocrit</td>
+									<td>49.7</td>
+									<td>%</td>
+									<td ID="OBSREF-1-5">43.0-49.0</td>
+									<td>+</td>
+									<td/>									
+								</tr>
+								
+								
+
+							</tbody>
+						</table>
+									
+					</text>
+
+					<entry typeCode="DRIV">
+						<templateId root="1.3.6.1.4.1.19376.1.3.1"
+							extension="Lab.Report.Data.Processing.Entry"/>
+						<act classCode="ACT" moodCode="EVN">
+							<code code="300" codeSystem="1.2.40.0.34.5.11"
+								codeSystemName="ELGA_LaborparameterErgaenzung" displayName="Hematology"/>
+							<statusCode code="completed"/>
+							
+
+							<entryRelationship typeCode="COMP">
+								<organizer classCode="BATTERY" moodCode="EVN">
+									<templateId root="1.3.6.1.4.1.19376.1.3.1.4"/>
+									<code code="1010" codeSystem="1.2.40.0.34.5.11" codeSystemName="ELGA_LaborparameterErgaenzung" displayName="Hemogram"/>
+									<statusCode code="completed"/>
+									<component typeCode="COMP">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="1.3.6.1.4.1.19376.1.3.1.6"/>
+											<id extension="OBS-1-1"
+												root="2.16.840.1.113883.2.16.1.99.3.1"/>
+											<code code="26464-8" codeSystem="2.16.840.1.113883.6.1"
+												/>
+											
+											<text>
+												<reference value="#OBS-1-1"/>
+											</text>
+											<statusCode code="completed"/>
+											<effectiveTime value="20121201073406+0100"/>
+											<value unit="G/L" value="26" xsi:type="PQ"/>
+											<interpretationCode code="H"
+												codeSystemName="HL7:ObservationInterpretation"
+												codeSystem="2.16.840.1.113883.5.83"
+												displayName="High"/>
+											<interpretationCode code="U"
+												codeSystemName="HL7:ObservationInterpretation"
+												codeSystem="2.16.840.1.113883.5.83"
+												displayName="increased"/>
+											
+											<referenceRange typeCode="REFV">
+												<observationRange classCode="OBS" moodCode="EVN.CRT">
+												
+												<text><reference value="#OBSREF-1-1"/></text>
+												<value xsi:type="IVL_PQ">
+													<low value="4.0" unit="G/L"/>
+													<high value="10.0" unit="G/L"/>
+												</value>
+												<interpretationCode code="N"
+												codeSystemName="HL7:ObservationInterpretation"
+												codeSystem="2.16.840.1.113883.5.83"
+												displayName="normal"/>
+												</observationRange>
+											</referenceRange>
+										</observation>
+									</component>
+									<component typeCode="COMP">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="1.3.6.1.4.1.19376.1.3.1.6"/>
+											<id extension="OBS-1-2"
+												root="2.16.840.1.113883.2.16.1.99.3.1"/>
+											<code code="26515-7" codeSystem="2.16.840.1.113883.6.1"
+												codeSystemName="LOINC" displayName="Platelets [#/​volume] in Blood"/>
+											<text>
+												<reference value="#OBS-1-2"/>
+											</text>
+											<statusCode code="completed"/>
+											<statusCode code="completed"/>
+											<effectiveTime value="20121201073406+0100"/>
+											<value unit="G/L" value="200" xsi:type="PQ"/>
+											<value xsi:type="CD" code="intverall" codeSystem="1.2.3.99"/>
+											<interpretationCode code="N"
+												codeSystemName="HL7:ObservationInterpretation"
+												codeSystem="2.16.840.1.113883.5.83"
+												displayName="normal"/>
+											<interpretationCode code="D"
+												codeSystemName="HL7:ObservationInterpretation"
+												codeSystem="2.16.840.1.113883.5.83"
+												displayName="decreased"/>
+											
+											<referenceRange typeCode="REFV">
+												<observationRange classCode="OBS" moodCode="EVN.CRT">
+												
+												<text><reference value="#OBSREF-1-2"/></text>
+												<value xsi:type="IVL_PQ">
+												<low value="150" unit="G/L"/>
+												<high value="360" unit="G/L"/>
+												</value>
+												<interpretationCode code="N"
+												codeSystemName="HL7:ObservationInterpretation"
+												codeSystem="2.16.840.1.113883.5.83"
+												displayName="normal"/>
+												</observationRange>
+											</referenceRange>
+										</observation>
+									</component>
+									<component typeCode="COMP">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="1.3.6.1.4.1.19376.1.3.1.6"/>
+											<id extension="OBS-1-3" root="2.16.840.1.113883.2.16.1.99.3.1"/>
+											<code code="26453-1" codeSystem="2.16.840.1.113883.6.1"
+												codeSystemName="LOINC" displayName="Erythrocytes [#/​volume] in Blood"/>
+											
+											<text>
+												<reference value="#OBS-1-3"/>
+											</text>
+											<statusCode code="completed"/>
+											<effectiveTime value="20121201073406+0100"/>
+											<value unit="T/L" value="4.05" xsi:type="PQ"/>
+											<interpretationCode code="L"
+												codeSystemName="HL7:ObservationInterpretation"
+												codeSystem="2.16.840.1.113883.5.83"
+												displayName="Low"/>
+											
+											<referenceRange typeCode="REFV">
+												<observationRange classCode="OBS" moodCode="EVN.CRT">
+												
+												<text><reference value="#OBSREF-1-3"/></text>
+												<value xsi:type="IVL_PQ">
+												<low value="4.6" unit="T/L"/>
+													<high value="6.2" unit="T/L"/>
+												</value>
+												<interpretationCode code="N"
+												codeSystemName="HL7:ObservationInterpretation"
+												codeSystem="2.16.840.1.113883.5.83"
+												displayName="normal"/>
+												</observationRange>
+											</referenceRange>
+										</observation>
+									</component>
+									<component typeCode="COMP">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="1.3.6.1.4.1.19376.1.3.1.6"/>
+											<id extension="OBS-1-4" root="2.16.840.1.113883.2.16.1.99.3.1"/>
+											<code code="718-7" codeSystem="2.16.840.1.113883.6.1"
+												codeSystemName="LOINC" displayName="Hemoglobin [Mass/​volume] in Blood"/>
+											
+											<text>
+												<reference value="#OBS-1-4"/>
+											</text>
+											<statusCode code="completed"/>
+											<effectiveTime value="20121201073406+0100"/>
+											<value unit="g/dL" value="16.0" xsi:type="PQ"/>
+											<interpretationCode code="N"
+												codeSystemName="HL7:ObservationInterpretation"
+												codeSystem="2.16.840.1.113883.5.83"
+												displayName="normal"/>
+											
+											<referenceRange typeCode="REFV">
+												<observationRange classCode="OBS" moodCode="EVN.CRT">
+
+												
+												<text><reference value="#OBSREF-1-4"/></text>
+												<value xsi:type="IVL_PQ">
+												<low value="14.0" unit="g/dL"/>
+													<high value="18.0" unit="g/dL"/>
+												</value>
+												<interpretationCode code="N"
+												codeSystemName="HL7:ObservationInterpretation"
+												codeSystem="2.16.840.1.113883.5.83"
+												displayName="normal"/>
+												</observationRange>
+											</referenceRange>
+										</observation>
+									</component>
+									<component typeCode="COMP">
+										<observation classCode="OBS" moodCode="EVN">
+											<templateId root="1.3.6.1.4.1.19376.1.3.1.6"/>
+											<id extension="OBS-1-5"
+												root="2.16.840.1.113883.2.16.1.99.3.1"/>
+											<code code="20570-8" codeSystem="2.16.840.1.113883.6.1"
+												codeSystemName="LOINC" displayName="Hematocrit [Volume Fraction] of Blood"/>											
+											<text>
+												<reference value="#OBS-1-5"/>
+											</text>
+											<statusCode code="completed"/>
+											
+											<effectiveTime value="20121201073406+0100"/>
+											<value unit="%" value="49.7" xsi:type="PQ"/>
+											<interpretationCode code="H"
+												codeSystemName="HL7:ObservationInterpretation"
+												codeSystem="2.16.840.1.113883.5.83"
+												displayName="High"/>
+											
+											
+											<referenceRange typeCode="REFV">
+												<observationRange classCode="OBS" moodCode="EVN.CRT">
+												
+												<text><reference value="#OBSREF-1-5"/></text>
+												<value xsi:type="IVL_PQ">
+												<low value="43.0" unit="%"/>
+												<high value="49.0" unit="%"/>
+												</value>
+												<interpretationCode code="N"
+												codeSystemName="HL7:ObservationInterpretation"
+												codeSystem="2.16.840.1.113883.5.83"
+												displayName="normal"/>
+												</observationRange>
+											</referenceRange>
+										</observation>
+									</component>
+									
+								</organizer>
+							</entryRelationship>
+							
+							
+							
+						</act>
+					</entry>
+				
+					<!-- Ende Level 3 -->
+				</section>
+			</component>
+
+		</structuredBody>
+	</component>
+</ClinicalDocument>
