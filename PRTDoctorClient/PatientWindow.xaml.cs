@@ -13,6 +13,7 @@ namespace PRTDoctorClient
     {
         private Hl7Patient _patient;
         private Dictionary<string, string> _surveyDict = new Dictionary<string, string>();
+        private int _loadingCount = 0;
 
         public PatientWindow(Hl7Patient patient)
         {
@@ -27,10 +28,40 @@ namespace PRTDoctorClient
             LoadMeetings();
         }
 
+        private void ShowLoading(bool isLoading)
+        {
+            if (isLoading)
+            {
+                _loadingCount++;
+            }
+            else
+            {
+                _loadingCount--;
+            }
+
+            if (_loadingCount > 0)
+            {
+                LoadingPanel.Visibility = Visibility.Visible;
+                listPatientInfo.Visibility = Visibility.Collapsed;
+                listMedicationView.Visibility = Visibility.Collapsed;
+                listSurveyView.Visibility = Visibility.Collapsed;
+                listMeetingBox.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                LoadingPanel.Visibility = Visibility.Collapsed;
+                listPatientInfo.Visibility = Visibility.Visible;
+                listMedicationView.Visibility = Visibility.Visible;
+                listSurveyView.Visibility = Visibility.Visible;
+                listMeetingBox.Visibility = Visibility.Visible;
+            }
+        }
+
         public List<PatientInfoDisplay> PatientInfo { get; set; }
 
         private void LoadPatientData()
         {
+            ShowLoading(true);
             PatientInfo = new List<PatientInfoDisplay>
             {
                 new PatientInfoDisplay { Field = "Name", Value = _patient.Name.FirstOrDefault()?.ToString() ?? "Unnamed" },
@@ -40,6 +71,7 @@ namespace PRTDoctorClient
             };
 
             listPatientInfo.ItemsSource = PatientInfo;
+            ShowLoading(false);
         }
 
         private string FormatAddress(Address address)
@@ -52,17 +84,22 @@ namespace PRTDoctorClient
 
         private void LoadMedications()
         {
-            var medications = new List<string> { "Aspirin", "Ibuprofen", "Paracetamol" }
-                .Select(m => new SelectableItem<string> { Item = m, IsSelected = false })
+            var medications = Enum.GetValues(typeof(Medication))
+                .Cast<Medication>()
+                .Select(m => new SelectableItem<string> { Item = m.ToString(), IsSelected = false })
                 .ToList();
 
             medicationListBox.ItemsSource = medications;
         }
 
+
+
         private void LoadSurveys()
         {
+            ShowLoading(true);
             var surveys = Surveys.Select(s => new SelectableItem<string> { Item = s.Name, IsSelected = false }).ToList();
             surveyListBox.ItemsSource = surveys;
+            ShowLoading(false);
         }
 
         private async void LoadPatientMedications()
@@ -76,7 +113,14 @@ namespace PRTDoctorClient
                 var medications = searchResult.Entry
                     .Where(e => e.Resource is MedicationRequest)
                     .Select(e => ((MedicationRequest)e.Resource).Medication as CodeableConcept)
-                    .Select(cc => cc?.Text ?? "Unknown Medication")
+                    .Select(cc =>
+                    {
+                        if (cc != null && cc.Coding != null && cc.Coding.Count > 0)
+                        {
+                            return cc.Coding.First().Display ?? cc.Text ?? "Unknown Medication";
+                        }
+                        return "Unknown Medication";
+                    })
                     .ToList();
 
                 listMedicationView.ItemsSource = medications;
@@ -87,10 +131,12 @@ namespace PRTDoctorClient
             }
         }
 
+
         private async void LoadPatientSurveys()
         {
             try
             {
+                ShowLoading(true);
                 var client = new FhirClient("http://hapi.fhir.org/baseR4");
 
                 var searchResult = await client.SearchAsync<QuestionnaireResponse>(new string[] { $"subject=Patient/{_patient.Id}" });
@@ -130,9 +176,11 @@ namespace PRTDoctorClient
             {
                 Console.WriteLine($"Error loading patient surveys: {ex.Message}");
             }
+            finally
+            {
+                ShowLoading(false);
+            }
         }
-
-
 
         private string FhirDateTimeToString(FhirDateTime fhirDateTime)
         {
@@ -143,9 +191,9 @@ namespace PRTDoctorClient
             return "Unknown Date";
         }
 
-
         private async void AssignChanges_Click(object sender, RoutedEventArgs e)
         {
+            ShowLoading(true);
             var selectedMedications = medicationListBox.Items
                 .Cast<SelectableItem<string>>()
                 .Where(item => item.IsSelected)
@@ -160,6 +208,7 @@ namespace PRTDoctorClient
 
             await AssignMedicationsToPatient(selectedMedications);
             await AssignSurveysToPatient(selectedSurveys);
+            ShowLoading(false);
         }
 
         private async System.Threading.Tasks.Task AssignMedicationsToPatient(List<string> medications)
@@ -171,7 +220,18 @@ namespace PRTDoctorClient
                 var medicationRequest = new MedicationRequest
                 {
                     Subject = new ResourceReference($"Patient/{_patient.Id}"),
-                    Medication = new CodeableConcept("http://hl7.org/fhir/sid/ndc", medication)
+                    Medication = new CodeableConcept
+                    {
+                        Coding = new List<Coding>
+                {
+                    new Coding
+                    {
+                        System = "http://hl7.org/fhir/sid/ndc",
+                        Code = medication,
+                        Display = medication // Set the display value
+                    }
+                }
+                    }
                 };
 
                 await client.CreateAsync(medicationRequest);
@@ -218,13 +278,11 @@ namespace PRTDoctorClient
             }
         }
 
-
-
-
         private async void LoadMeetings()
         {
             try
             {
+                ShowLoading(true);
                 var client = new FhirClient("http://hapi.fhir.org/baseR4");
 
                 var searchResult = await client.SearchAsync<Appointment>(new string[] { $"patient={_patient.Id}" });
@@ -250,6 +308,10 @@ namespace PRTDoctorClient
             {
                 Console.WriteLine($"Error loading patient meetings: {ex.Message}");
             }
+            finally
+            {
+                ShowLoading(false);
+            }
         }
 
         private string GetStatusColor(Appointment.AppointmentStatus status)
@@ -273,11 +335,6 @@ namespace PRTDoctorClient
                     return "Black"; // Default color if status is not matched
             }
         }
-
-
-
-
-
 
         private void NewMeetingButton_Click(object sender, RoutedEventArgs e)
         {
@@ -331,6 +388,12 @@ namespace PRTDoctorClient
             }
         }
 
+        private void ViewWellbeingButton_Click(object sender, RoutedEventArgs e)
+        {
+            var patientStatisticWindow = new PatientStatistic(_patient);
+            patientStatisticWindow.Show();
+        }
+
 
         private void ListMeetingBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
@@ -341,10 +404,8 @@ namespace PRTDoctorClient
                 meetingScheduleWindow.Show();
             }
         }
-    
 
-
-    private void CloseButton_Click(object sender, RoutedEventArgs e)
+        private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
@@ -355,9 +416,6 @@ namespace PRTDoctorClient
             public string AssignedDate { get; set; }
             public string Status { get; set; }
         }
-
-
-
 
         public class PatientInfoDisplay
         {
@@ -382,21 +440,6 @@ namespace PRTDoctorClient
                 Questions = questions;
             }
         }
-
-        public class MeetingDisplay
-        {
-            public string Id { get; set; }
-            public string Date { get; set; }
-            public string Time { get; set; }
-            public string Description { get; set; }
-            public string Priority { get; set; }
-            public string Status { get; set; } // Add Status property
-            public string StatusColor { get; set; } // Add StatusColor property
-        }
-
-
-
-
 
         public static List<Survey> Surveys = new List<Survey>
         {

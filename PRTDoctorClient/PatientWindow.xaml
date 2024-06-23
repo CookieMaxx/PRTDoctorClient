@@ -5,7 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PRTDoctorClient"
         mc:Ignorable="d"
-        Title="PatientWindow" Height="500" Width="800">
+        Title="PatientWindow" Height="500" Width="800"
+        ResizeMode="NoResize"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="White">
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="140.04"/>
@@ -16,6 +20,13 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
+        <!-- Loading Spinner -->
+        <StackPanel Name="LoadingPanel" HorizontalAlignment="Center" VerticalAlignment="Center" Visibility="Collapsed">
+            <TextBlock Text="Syncing with server..." HorizontalAlignment="Center" VerticalAlignment="Center" />
+            <ProgressBar IsIndeterminate="True" Width="200" Height="20" />
+        </StackPanel>
+
+        <!-- Other UI elements -->
         <ListView Name="listPatientInfo" HorizontalAlignment="Left" Width="300" Margin="10,34,0,98" Grid.RowSpan="3">
             <ListView.View>
                 <GridView>
@@ -25,7 +36,7 @@
             </ListView.View>
         </ListView>
 
-        <ListBox Name="listMeetingBox" Margin="10,111,0,48" Grid.RowSpan="3" Grid.Row="1" HorizontalAlignment="Left" Width="300">
+        <ListBox Name="listMeetingBox" Margin="10,111,0,48" Grid.RowSpan="3" Grid.Row="1" HorizontalAlignment="Left" Width="300" MouseDoubleClick="ListMeetingBox_MouseDoubleClick">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Vertical">
@@ -57,7 +68,9 @@
         <Button Name="ChangeMeetingButton" Content="Change Appointment" HorizontalAlignment="Left" Margin="138,45,0,0" Click="ChangeMeetingButton_Click" Width="140" Grid.Row="3" VerticalAlignment="Top"/>
         <Button Name="CancelMeetingButton" Content="Cancel Appointment" HorizontalAlignment="Left" Margin="283,45,0,0" Click="CancelMeetingButton_Click" Width="120" Grid.Row="3" VerticalAlignment="Top"/>
 
-        <Button Name="CloseButton" Content="Close" HorizontalAlignment="Right"  VerticalAlignment="Top" Click="CloseButton_Click" Margin="0,37,10,0" Height="33" Width="75" Grid.Row="3"/>
+        <Button Name="CloseButton" Content="Close" HorizontalAlignment="Right"  VerticalAlignment="Top" Click="CloseButton_Click" Margin="0,45,10,0" Width="55" Grid.Row="3"/>
+        <Button Name="ViewWellbeingButton" Content="View Patient Wellbeing" HorizontalAlignment="Left" Margin="408,45,0,0" Click="ViewWellbeingButton_Click" Width="150" Grid.Row="3" VerticalAlignment="Top"/>
+
 
         <ListView x:Name="listMedicationView" HorizontalAlignment="Left" Width="206" Margin="320,35,0,97" Grid.RowSpan="3">
             <ListView.View>
@@ -85,7 +98,7 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <Button x:Name="assignMedSurv" Content="Assign changes" HorizontalAlignment="Left" Margin="531,40,0,0" Click="AssignChanges_Click" Width="145" Grid.Row="3" Height="28" VerticalAlignment="Top"/>
+        <Button x:Name="assignMedSurv" Content="Assign changes" HorizontalAlignment="Left" Margin="566,45,0,0" Click="AssignChanges_Click" Width="100" Grid.Row="3" VerticalAlignment="Top"/>
         <ListBox x:Name="surveyListBox" Margin="530,111,10,48" Grid.RowSpan="3" Grid.Row="1">
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -96,7 +109,6 @@
 
         <TextBlock Text="Survey" FontWeight="Bold" Margin="530,10,178,113"/>
         <TextBlock Text="Patient Data" FontWeight="Bold" Margin="13,10,695,114"/>
-        
-        
+
     </Grid>
 </Window>

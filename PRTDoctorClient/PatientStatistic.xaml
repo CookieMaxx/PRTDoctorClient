@@ -1,12 +1,26 @@
 ﻿<Window x:Class="PRTDoctorClient.PatientStatistic"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:PRTDoctorClient"
-        mc:Ignorable="d"
-        Title="PatientStatistic" Height="450" Width="800">
-    <Grid>
-        
+        Title="Patient Wellbeing" Height="600" Width="800">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- ListView for Patient Info -->
+        <ListView Name="listPatientInfo" Margin="0,10,0,10" Grid.Row="0">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Field" DisplayMemberBinding="{Binding Field}"/>
+                    <GridViewColumn Header="Value" DisplayMemberBinding="{Binding Value}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <!-- Chart for Wellbeing Overview -->
+        <Border Margin="0,10,0,0" Grid.Row="1" BorderBrush="Black" BorderThickness="1">
+            <Canvas Name="WellbeingChart" />
+        </Border>
     </Grid>
 </Window>

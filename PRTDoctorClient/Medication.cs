@@ -8,16 +8,26 @@ namespace PRTDoctorClient
 {
     public enum Medication
     {
-        Fluoxetine,
-        Sertraline,
-        Escitalopram,
-        Duloxetine,
-        Venlafaxine,
-        Amitriptyline,
-        Imipramine,
-        Phenelzine,
-        Methylphenidate,
-        Atomoxetine,
-        Guanfacine
+        Fluoxetine, // Prozac
+        Sertraline, // Zoloft
+        Paroxetine, // Paxil
+        Citalopram, // Celexa
+        Escitalopram, // Lexapro
+        Venlafaxine, // Effexor
+        Duloxetine, // Cymbalta
+        Bupropion, // Wellbutrin
+        Amitriptyline, // Elavil
+        Mirtazapine, // Remeron
+        Aripiprazole, // Abilify
+        Quetiapine, // Seroquel
+        Olanzapine, // Zyprexa
+        Risperidone, // Risperdal
+        Clozapine, // Clozaril
+        Haloperidol, // Haldol
+        Chlorpromazine, // Thorazine
+        Perphenazine, // Trilafon
+        Lurasidone, // Latuda
+        Ziprasidone // Geodon
     }
+
 }
