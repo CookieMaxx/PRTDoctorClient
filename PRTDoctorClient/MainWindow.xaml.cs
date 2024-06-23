@@ -110,7 +110,10 @@ namespace PRTDoctorClient
             }
         }
 
-        
+        private void PreviousDay_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 
     public class PatientDisplay

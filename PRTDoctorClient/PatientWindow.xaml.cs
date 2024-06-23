@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using Hl7.Fhir.Rest;
+using System.Windows.Input;
 
 namespace PRTDoctorClient
 {
@@ -17,7 +18,7 @@ namespace PRTDoctorClient
         {
             InitializeComponent();
             _patient = patient;
-            DataContext = this; // Set DataContext for data binding
+            DataContext = this;
             LoadPatientData();
             LoadMedications();
             LoadSurveys();
@@ -143,12 +144,6 @@ namespace PRTDoctorClient
         }
 
 
-
-
-
-
-
-
         private async void AssignChanges_Click(object sender, RoutedEventArgs e)
         {
             var selectedMedications = medicationListBox.Items
@@ -239,8 +234,13 @@ namespace PRTDoctorClient
                     .Select(e => (Appointment)e.Resource)
                     .Select(appt => new MeetingDisplay
                     {
-                        Date = appt.StartElement?.ToString() ?? "Unknown Date",
-                        Description = appt.Description ?? "No Description"
+                        Id = appt.Id,
+                        Date = appt.Start.HasValue ? appt.Start.Value.DateTime.ToString("yyyy-MM-dd") : "Unknown",
+                        Time = appt.Start.HasValue ? appt.Start.Value.DateTime.ToString("HH:mm") : "Unknown",
+                        Description = appt.Description,
+                        Priority = appt.Priority == 1 ? "High" : appt.Priority == 2 ? "Medium" : "Low",
+                        Status = appt.Status.HasValue ? appt.Status.ToString() : "Unknown",
+                        StatusColor = appt.Status.HasValue ? GetStatusColor(appt.Status.Value) : "Black"
                     })
                     .ToList();
 
@@ -252,25 +252,99 @@ namespace PRTDoctorClient
             }
         }
 
-        private void DeleteMeetingButton_Click(object sender, RoutedEventArgs e)
+        private string GetStatusColor(Appointment.AppointmentStatus status)
+        {
+            switch (status)
+            {
+                case Appointment.AppointmentStatus.Cancelled:
+                case Appointment.AppointmentStatus.Noshow:
+                case Appointment.AppointmentStatus.EnteredInError:
+                    return "Red";
+                case Appointment.AppointmentStatus.Proposed:
+                case Appointment.AppointmentStatus.Pending:
+                case Appointment.AppointmentStatus.Waitlist:
+                    return "Yellow";
+                case Appointment.AppointmentStatus.Booked:
+                case Appointment.AppointmentStatus.Arrived:
+                case Appointment.AppointmentStatus.Fulfilled:
+                case Appointment.AppointmentStatus.CheckedIn:
+                    return "Green";
+                default:
+                    return "Black"; // Default color if status is not matched
+            }
+        }
+
+
+
+
+
+
+        private void NewMeetingButton_Click(object sender, RoutedEventArgs e)
+        {
+            var meetingScheduleWindow = new MeetingSchedule(_patient);
+            meetingScheduleWindow.Show();
+        }
+
+        private void ChangeMeetingButton_Click(object sender, RoutedEventArgs e)
         {
             var selectedMeeting = (MeetingDisplay)listMeetingBox.SelectedItem;
             if (selectedMeeting != null)
             {
-                // Add logic to delete meeting
+                var meetingScheduleWindow = new MeetingSchedule(_patient, selectedMeeting);
+                meetingScheduleWindow.Show();
+            }
+            else
+            {
+                MessageBox.Show("Please select a meeting to change.");
             }
         }
 
-        private void RescheduleMeetingButton_Click(object sender, RoutedEventArgs e)
+        private async void CancelMeetingButton_Click(object sender, RoutedEventArgs e)
         {
             var selectedMeeting = (MeetingDisplay)listMeetingBox.SelectedItem;
             if (selectedMeeting != null)
             {
-                // Add logic to reschedule meeting
+                try
+                {
+                    var client = new FhirClient("http://hapi.fhir.org/baseR4");
+                    var appointment = await client.ReadAsync<Appointment>($"Appointment/{selectedMeeting.Id}");
+
+                    // Set the status of the appointment to cancelled
+                    appointment.Status = Appointment.AppointmentStatus.Cancelled;
+
+                    // Update the appointment on the FHIR server
+                    await client.UpdateAsync(appointment);
+
+                    MessageBox.Show("Appointment cancelled successfully.");
+
+                    // Refresh the meetings list to reflect the change
+                    LoadMeetings();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error cancelling appointment: {ex.Message}");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a meeting to cancel.");
             }
         }
 
-        private void CloseButton_Click(object sender, RoutedEventArgs e)
+
+        private void ListMeetingBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            var selectedMeeting = (MeetingDisplay)listMeetingBox.SelectedItem;
+            if (selectedMeeting != null)
+            {
+                var meetingScheduleWindow = new MeetingSchedule(_patient, selectedMeeting);
+                meetingScheduleWindow.Show();
+            }
+        }
+    
+
+
+    private void CloseButton_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
         }
@@ -311,9 +385,18 @@ namespace PRTDoctorClient
 
         public class MeetingDisplay
         {
+            public string Id { get; set; }
             public string Date { get; set; }
+            public string Time { get; set; }
             public string Description { get; set; }
+            public string Priority { get; set; }
+            public string Status { get; set; } // Add Status property
+            public string StatusColor { get; set; } // Add StatusColor property
         }
+
+
+
+
 
         public static List<Survey> Surveys = new List<Survey>
         {

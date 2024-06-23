@@ -25,9 +25,38 @@
             </ListView.View>
         </ListView>
 
-        <ListBox Name="listMeetingBox" Margin="10,111,0,48" Grid.RowSpan="3" Grid.Row="1" HorizontalAlignment="Left" Width="300"/>
-        <Button Name="DeleteMeetingButton" Content="Delete Meeting" HorizontalAlignment="Left" Margin="165,37,0,0" Click="DeleteMeetingButton_Click" Width="145" Grid.Row="3" Height="28" VerticalAlignment="Top"/>
-        <Button Name="RescheduleMeetingButton" Content="Reschedule Meeting" HorizontalAlignment="Right" Margin="0,37,620,0" Click="RescheduleMeetingButton_Click" Width="150" Grid.Row="3" Height="28" VerticalAlignment="Top"/>
+        <ListBox Name="listMeetingBox" Margin="10,111,0,48" Grid.RowSpan="3" Grid.Row="1" HorizontalAlignment="Left" Width="300">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Date: " FontWeight="Bold"/>
+                            <TextBlock Text="{Binding Date}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Time: " FontWeight="Bold"/>
+                            <TextBlock Text="{Binding Time}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Description: " FontWeight="Bold"/>
+                            <TextBlock Text="{Binding Description}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Priority: " FontWeight="Bold"/>
+                            <TextBlock Text="{Binding Priority}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Status: " FontWeight="Bold"/>
+                            <TextBlock Text="{Binding Status}" Foreground="{Binding StatusColor}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Button Name="NewMeetingButton" Content="New Appointment" HorizontalAlignment="Left" Margin="13,45,0,0" Click="NewMeetingButton_Click" Width="120" Grid.Row="3" VerticalAlignment="Top"/>
+        <Button Name="ChangeMeetingButton" Content="Change Appointment" HorizontalAlignment="Left" Margin="138,45,0,0" Click="ChangeMeetingButton_Click" Width="140" Grid.Row="3" VerticalAlignment="Top"/>
+        <Button Name="CancelMeetingButton" Content="Cancel Appointment" HorizontalAlignment="Left" Margin="283,45,0,0" Click="CancelMeetingButton_Click" Width="120" Grid.Row="3" VerticalAlignment="Top"/>
+
         <Button Name="CloseButton" Content="Close" HorizontalAlignment="Right"  VerticalAlignment="Top" Click="CloseButton_Click" Margin="0,37,10,0" Height="33" Width="75" Grid.Row="3"/>
 
         <ListView x:Name="listMedicationView" HorizontalAlignment="Left" Width="206" Margin="320,35,0,97" Grid.RowSpan="3">
@@ -56,7 +85,7 @@
             </ListBox.ItemTemplate>
         </ListBox>
 
-        <Button x:Name="assignMedSurv" Content="Assign changes" HorizontalAlignment="Left" Margin="320,37,0,0" Click="AssignChanges_Click" Width="145" Grid.Row="3" Height="28" VerticalAlignment="Top"/>
+        <Button x:Name="assignMedSurv" Content="Assign changes" HorizontalAlignment="Left" Margin="531,40,0,0" Click="AssignChanges_Click" Width="145" Grid.Row="3" Height="28" VerticalAlignment="Top"/>
         <ListBox x:Name="surveyListBox" Margin="530,111,10,48" Grid.RowSpan="3" Grid.Row="1">
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -67,5 +96,7 @@
 
         <TextBlock Text="Survey" FontWeight="Bold" Margin="530,10,178,113"/>
         <TextBlock Text="Patient Data" FontWeight="Bold" Margin="13,10,695,114"/>
+        
+        
     </Grid>
 </Window>

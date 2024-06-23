@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:PRTDoctorClient"
         mc:Ignorable="d"
         Title="MainWindow" Height="480" Width="800">
-    <Grid Margin="0,0,0,10" HorizontalAlignment="Center" Width="780" Height="444" VerticalAlignment="Bottom">
+    <Grid Margin="10">
         <ListBox x:Name="listPatients" Margin="10,26,400,180" MouseDoubleClick="YourListBox_MouseDoubleClick">
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -17,8 +17,41 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <ListBox x:Name="lstMeetingsDate" d:ItemsSource="{d:SampleData ItemCount=5}" Margin="405,26,10,180"/>
+
+        
+
+        <ListBox x:Name="lstMeetingsDate" Margin="405,26,10,180" >
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Date: " FontWeight="Bold"/>
+                            <TextBlock Text="{Binding Date}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Time: " FontWeight="Bold"/>
+                            <TextBlock Text="{Binding Time}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Description: " FontWeight="Bold"/>
+                            <TextBlock Text="{Binding Description}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Priority: " FontWeight="Bold"/>
+                            <TextBlock Text="{Binding Priority}" />
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="Status: " FontWeight="Bold"/>
+                            <TextBlock Text="{Binding Status}" Foreground="{Binding StatusColor}"/>
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
         <Label Content="Patients" HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top"/>
         <Label Content="Today's Appointments" HorizontalAlignment="Left" Margin="405,0,0,0" VerticalAlignment="Top"/>
+
+        <ProgressBar x:Name="loadingSpinner" IsIndeterminate="True" Visibility="Collapsed" Width="200" Height="20" VerticalAlignment="Center" HorizontalAlignment="Center"/>
     </Grid>
 </Window>
